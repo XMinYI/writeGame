@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>write game</title>
+		<script type="text/javascript" src="js/wirteGame.js"></script>
+		<style type="text/css">
+			.word{
+				width: 100px;
+				height: 100px;
+				text-align: center;
+				line-height: 100px;
+				background: pink;
+				margin: 0 auto;
+				border-radius: 20px;
+				transition: all 0.5s;
+			}
+			
+			.success{
+				/*box-shadow: 0 0 20px yellow;*/
+				animation: win 1s;
+			}
+			@keyframes win{
+				0%{
+					box-shadow: none;
+				}
+				50%{
+					box-shadow: 0 0 20px yellow;
+				}
+				100%{
+					box-shadow: none;
+				}
+			}
+			
+			.error{
+				/*box-shadow: 0 0 20px red;*/
+				animation: error 1s;
+			}
+			@keyframes error{
+				0%{
+					box-shadow: none;
+				}
+				50%{
+					box-shadow: 0 0 20px red;
+				}
+				100%{
+					box-shadow: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<p>得分情况:<span class="score">0</span></p>
+		<h1 class="word"></h1>
+		
+		<script type="text/javascript">
+			var score = 0;
+			var randomStr;
+			var h1 = document.querySelector('h1');
+			var body = document.querySelector('body');
+			var scoreSpan = document.querySelector('.score');
+			
+			function randomRender(){
+				var randomFloat = Math.random()*26;
+				var randomNum = parseInt(randomFloat);
+				randomStr = String.fromCharCode(randomNum+65);
+				h1.innerHTML = randomStr;
+			}
+			
+			randomRender();
+			
+			body.onkeypress = function(event){
+				console.log(event)
+				h1.className = "word"
+				setTimeout (function(){
+					if ((event.keyCode-32)==randomStr.charCodeAt()) {
+						score++;
+						randomRender();
+						scoreSpan.innerHTML = score;
+						h1.className = "word success";
+					}else{
+						h1.className = "word error";
+					}
+				},50);
+				
+				setTimeout(function(){
+				xmy('恭喜你每分钟能打'+(score*6)+"字")
+				//取消掉按键事件，结束游戏。
+				body.onkeypress = null;
+			},10000)
+			};
+			
+			
+		</script>
+	</body>
+</html> 
